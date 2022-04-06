@@ -1,19 +1,25 @@
 import { useState } from "react";
 
 const App = () => {
+
 // hook -> use .....
 //state -> useState
-
 
 const[inputsState, setInputsState] = useState({
   title:"",
    date:"",
    note:""
 });
-
   const handleInputChange = (event) => { 
    setInputsState({...inputsState,[event.target.name]:event.target.value});
    };
+
+const handleClick = (event) =>{ 
+  setInputsState({title:"",
+  date:"",
+  note:""});
+
+}
 
   return (
      <div className="App">
@@ -50,6 +56,7 @@ const[inputsState, setInputsState] = useState({
      value={inputsState.note}
       />
       </label>
+      <button className="btn btn-primary me-2" onClick={handleClick}>limpiar</button>
     </div>
   );
 };
