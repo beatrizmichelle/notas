@@ -19,13 +19,19 @@ const handleClick = (event) =>{
   date:"",
   note:""});
 
-}
+};
+
 
   return (
-     <div className="App">
+     <div className="App container">
+     <div className="row">
+       <div className="col">
+         <h3>lista</h3>
+       </div>
+     <div className="col">
      <h3>Notas</h3>
+     <label className="mb-2"></label>
      <label>Titulo
-     
      <input 
      id="title" 
      name="title" 
@@ -35,7 +41,7 @@ const handleClick = (event) =>{
       />
       </label>
       <br />
-      <label>Fecha
+      <label className="mb-2">Fecha
      
      <input 
      id="date" 
@@ -56,7 +62,12 @@ const handleClick = (event) =>{
      value={inputsState.note}
       />
       </label>
+      </div>
+      </div>
+      <hr />
+      <div className="row">
       <button className="btn btn-primary me-2" onClick={handleClick}>limpiar</button>
+      </div>
     </div>
   );
 };
