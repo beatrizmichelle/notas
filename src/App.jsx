@@ -14,34 +14,49 @@ const[inputsState, setInputsState] = useState({
    setInputsState({...inputsState,[event.target.name]:event.target.value});
    };
 
-const handleClick = (event) =>{ 
+const handleClickLimpiar = (event) =>{ 
   setInputsState({title:"",
   date:"",
   note:""});
 
 };
-
+let notas = JSON.parse(localStorage.getItem("notas")) || [];
+const handleClickGuardar = () =>{
+ notas.push(inputsState)
+  localStorage.setItem("notas",JSON.stringify(notas));
+  handleClickLimpiar();
+};
 
   return (
      <div className="App container">
      <div className="row">
        <div className="col">
          <h3>lista</h3>
+         <ul>
+           {notas.map((nota) => {
+             return(
+               <li>
+               {nota.title}({nota.date})
+               </li>
+             );
+           })}
+         </ul>
        </div>
      <div className="col">
      <h3>Notas</h3>
-     <label className="mb-2"></label>
-     <label>Titulo
+     <label className="mb-2" style={{width:"100%"}}></label>
+     <label style={{width:"100%"}}>Titulo
      <input 
      id="title" 
      name="title" 
      type="text" 
      onChange={handleInputChange}
      value={inputsState.title}
+     style={{width:"100%"}}
       />
       </label>
       <br />
-      <label className="mb-2">Fecha
+      <label className="mb-2" style={{width:"100%"}}>Fecha
      
      <input 
      id="date" 
@@ -49,10 +64,11 @@ const handleClick = (event) =>{
      type="text" 
      onChange={handleInputChange}
      value={inputsState.date}
+     style={{width:"100%"}}
       />
-      </label>
+      </label >
       <br />
-      <label>Nota
+      <label style={{width:"100%"}}>Nota
      
      <input 
      id="note" 
@@ -60,14 +76,28 @@ const handleClick = (event) =>{
      type="text" 
      onChange={handleInputChange}
      value={inputsState.note}
+     style={{width:"100%"}}
       />
       </label>
-      </div>
-      </div>
       <hr />
       <div className="row">
-      <button className="btn btn-primary me-2" onClick={handleClick}>limpiar</button>
+      <span className="col">
+      <button className="btn btn-primary me-2" 
+      onClick={handleClickLimpiar} 
+      style={{width:"100%"}}
+      >limpiar</button>
+      </span>
+      <span className="col">
+        <button
+        type="button"
+        className="btn btn-primary"
+        onClick={handleClickGuardar}
+        style={{whith:"100%"}}>Guardar</button>
+      </span>
       </div>
+      </div>
+      </div>
+      
     </div>
   );
 };
