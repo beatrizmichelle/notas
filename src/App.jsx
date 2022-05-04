@@ -10,6 +10,8 @@ const[inputsState, setInputsState] = useState({
    date:"",
    note:""
 });
+let inicialState = JSON.parse(localStorage.getItem("notas")) || [];
+const [notas,setNotas] = useState(inicialState)
   const handleInputChange = (event) => { 
    setInputsState({...inputsState,[event.target.name]:event.target.value});
    };
@@ -20,11 +22,20 @@ const handleClickLimpiar = (event) =>{
   note:""});
 
 };
-let notas = JSON.parse(localStorage.getItem("notas")) || [];
 const handleClickGuardar = () =>{
- notas.push(inputsState)
+ setNotas([...notas, inputsState])
   localStorage.setItem("notas",JSON.stringify(notas));
   handleClickLimpiar();
+};
+const  handleRemoveNote = (index) =>{
+const nuevoArreglo = []
+notas.forEach((nota, i) => {
+ if(index !== i ){
+   nuevoArreglo.push(nota);
+ }
+});
+localStorage.setItem("notas", JSON.stringify(nuevoArreglo));
+setNotas(nuevoArreglo);
 };
 
   return (
@@ -33,10 +44,15 @@ const handleClickGuardar = () =>{
        <div className="col">
          <h3>lista</h3>
          <ul>
-           {notas.map((nota) => {
+           {notas.map((nota, index) => {
              return(
-               <li>
-               {nota.title}({nota.date})
+               <li key={index}>
+               {nota.title}({nota.date}) {nota.note} &nbsp;
+               <i className="bi-x-circle" onClick={() => handleRemoveNote(index)} 
+               style={{ 
+                 color: "red", 
+                 cursor: "pointer", 
+                 fontSize: "0.75rem"}}></i>
                </li>
              );
            })}
@@ -46,7 +62,7 @@ const handleClickGuardar = () =>{
      <h3>Notas</h3>
      <label className="mb-2" style={{width:"100%"}}></label>
      <label style={{width:"100%"}}>Titulo
-     <input 
+     <input
      id="title" 
      name="title" 
      type="text" 
@@ -61,7 +77,7 @@ const handleClickGuardar = () =>{
      <input 
      id="date" 
      name="date" 
-     type="text" 
+     type="date" 
      onChange={handleInputChange}
      value={inputsState.date}
      style={{width:"100%"}}
@@ -70,7 +86,7 @@ const handleClickGuardar = () =>{
       <br />
       <label style={{width:"100%"}}>Nota
      
-     <input 
+     <textarea 
      id="note" 
      name="note" 
      type="text" 
